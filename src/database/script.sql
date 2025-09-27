@@ -3,7 +3,7 @@ SET client_encoding = 'UTF8';
 DROP TABLE IF EXISTS Chamados;
 DROP TABLE IF EXISTS Usuarios;
 
-CREATE TABLE IF NOT EXISTS Usuarios (
+CREATE TABLE Usuarios (
   id                SERIAL       PRIMARY KEY,
   nome              VARCHAR(255) NOT NULL,
   email             VARCHAR(255) NOT NULL UNIQUE,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
   data_atualizacao  TIMESTAMP    NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS Chamados (
+CREATE TABLE Chamados (
   id                SERIAL       PRIMARY KEY,
   Usuarios_id       INTEGER      NOT NULL REFERENCES Usuarios(id) ON DELETE CASCADE,
   texto             VARCHAR(255) NOT NULL,

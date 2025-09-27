@@ -1,10 +1,11 @@
-// server.js
+// server/server.js
 import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
 import chalk from 'chalk';
+
 import chamadoRoutes from '../routes/chamadoRoutes.js';
 import redisService from '../services/redisService.js';
 import sseService from '../services/sseService.js';
@@ -29,7 +30,11 @@ app.use('/api/chamados', chamadoRoutes);
 
 app.listen(PORT, () => {
     console.log(chalk.bold.green(`Servidor Express rodando na porta ${PORT}`));
-    // Inicializa os serviços de Redis e SSE
-    redisService.initialize();
-    sseService.initialize();
+
+    // Orquestração: Inicializa o serviço Redis e passa a função de envio do SSE como callback.
+    redisService.initialize((channel, message) => {
+        if (channel === 'chamados-updates') {
+            sseService.sendEventsToAll(message);
+        }
+    });
 });
