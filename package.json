@@ -1,0 +1,28 @@
+{
+  "name": "observer-backend",
+  "version": "1.0.0",
+  "main": "src/server/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "reset-database": "node src/commands/reset-database.js",
+    "start": "node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "redis": "^5.8.2"
+  },
+  "devDependencies": {
+    "chalk": "^5.6.2",
+    "nodemon": "^3.1.10",
+    "pg-format": "^1.0.4"
+  }
+}
