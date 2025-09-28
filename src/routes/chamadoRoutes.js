@@ -1,7 +1,7 @@
 // src/routes/chamadoRoutes.js
 import express from 'express';
-const router = express.Router();
 import chamadoController from '../controllers/chamadoController.js';
+const router = express.Router();
 
 // GET /api/chamados/events -> Rota SSE (mais específica, vem antes de /:id)
 router.get('/events', chamadoController.handleEvents);

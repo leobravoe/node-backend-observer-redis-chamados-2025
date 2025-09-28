@@ -1,7 +1,4 @@
-// server/server.js
-import dotenv from 'dotenv';
-dotenv.config();
-
+// src/server/server.js
 import express from 'express';
 import cors from 'cors';
 import chalk from 'chalk';
@@ -9,6 +6,9 @@ import chalk from 'chalk';
 import chamadoRoutes from '../routes/chamadoRoutes.js';
 import redisService from '../services/redisService.js';
 import sseService from '../services/sseService.js';
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,7 +28,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/chamados', chamadoRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(chalk.bold.green(`Servidor Express rodando na porta ${PORT}`));
 
     // Orquestração: Inicializa o serviço Redis e passa a função de envio do SSE como callback.

@@ -1,15 +1,16 @@
 // src/services/redisService.js
 import { createClient } from 'redis';
 import chalk from 'chalk';
-import dotenv from 'dotenv';
-dotenv.config();
 
 let publisher;
 let subscriber;
 let isPublisherReady = false;
 
 const redisConfig = {
-    url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT,
+    },
     password: process.env.REDIS_PASSWORD || undefined,
 };
 
@@ -26,12 +27,16 @@ const initializePublisher = async () => {
 };
 
 const initializeSubscriber = async (onMessageCallback) => {
-    subscriber = publisher.duplicate();
+    subscriber = createClient(redisConfig);
     subscriber.on('error', (err) => console.error(chalk.red('[Redis Subscriber] Erro:'), err));
+    subscriber.on('connect', () => console.log(chalk.cyan('[Redis Subscriber] Conectado.')));
+    subscriber.on('reconnecting', () => console.log(chalk.yellow('[Redis Subscriber] Reconectando...')));
     await subscriber.connect();
-
     console.log(chalk.green('[Redis Subscriber] Conectado e inscrito no canal "chamados-updates".'));
-    await subscriber.subscribe('chamados-updates', onMessageCallback);
+    await subscriber.subscribe('chamados-updates', (message, channel) => {
+        console.log(chalk.blue(`[Redis Subscriber] Mensagem recebida no canal ${channel}:`), message);
+        onMessageCallback(channel, message);
+    });
 };
 
 const initialize = async (onMessageCallback) => {
@@ -44,11 +49,23 @@ const initialize = async (onMessageCallback) => {
     }
 };
 
-const publishEvent = (channel, data) => {
+// CORREÇÃO: A função agora é async e retorna a promessa da publicação.
+const publishEvent = async (channel, data) => {
     if (isPublisherReady) {
-        publisher.publish(channel, JSON.stringify(data));
+        try {
+            const message = JSON.stringify(data);
+            console.log(chalk.blue(`[Redis Publisher] Publicando no canal ${channel}:`), message);
+            const result = await publisher.publish(channel, message);
+            console.log(chalk.green(`[Redis Publisher] Evento publicado com sucesso. Subscribers: ${result}`));
+            return result;
+        } catch (err) {
+            console.error(chalk.red('[Redis Publisher] Erro ao publicar evento:'), err);
+            throw err;
+        }
     } else {
         console.error(chalk.red('[Redis Publisher] Não está pronto, evento não publicado.'));
+        // Retorna uma promessa resolvida para não quebrar o await no controller.
+        return Promise.resolve();
     }
 };
 
