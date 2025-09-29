@@ -166,7 +166,5 @@ Não há uma documentação de API gerada automaticamente. Os endpoints podem se
 
 ## Licença e Créditos
 
-*   **Licença**: ISC
-*   **Autor**: (indeterminado)
-
-**Fonte**: `package.json`
+*   **Licença**: MIT
+*   **Autor**: Leonardo Bravo Estácio
