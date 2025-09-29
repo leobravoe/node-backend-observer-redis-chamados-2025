@@ -50,7 +50,7 @@ A arquitetura consiste em uma aplicação Node.js que utiliza o framework Expres
 | `DB_DATABASE` | `observer_db` | Sim | Nome do banco de dados a ser utilizado. |
 | `REDIS_HOST` | `localhost` | Sim | Endereço do servidor Redis. |
 | `REDIS_PORT` | `6379` | Sim | Porta do servidor Redis. |
-| `REDIS_PASSWORD` | `redis_secret` | Sim | Senha para a conexão com o Redis (opcional). |
+| `REDIS_PASSWORD` | `redis_secret` | Sim | Senha para a conexão com o Redis. |
 
 5.  **Inicialização de Dados**: O projeto inclui um script para resetar e popular o banco de dados com dados de exemplo.
     ```sh
