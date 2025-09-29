@@ -47,7 +47,7 @@ A arquitetura consiste em uma aplicação Node.js que utiliza o framework Expres
 | `DB_PORT` | `5432` | Sim | Porta do servidor de banco de dados PostgreSQL. |
 | `DB_USER` | `postgres` | Sim | Nome de usuário para a conexão com o banco de dados. |
 | `DB_PASSWORD` | `secret` | Sim | Senha para a conexão com o banco de dados. |
-| `DB_DATABASE` | `observer_db` | Sim | Nome do banco de dados a ser utilizado. |
+| `DB_DATABASE` | `chamados_api_db` | Sim | Nome do banco de dados a ser utilizado. |
 | `REDIS_HOST` | `localhost` | Sim | Endereço do servidor Redis. |
 | `REDIS_PORT` | `6379` | Sim | Porta do servidor Redis. |
 | `REDIS_PASSWORD` | `redis_secret` | Sim | Senha para a conexão com o Redis. |
